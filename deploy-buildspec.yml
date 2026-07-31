@@ -1,0 +1,15 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - curl -LO "https://dl.k8s.io/release/v1.29.0/bin/linux/amd64/kubectl"
+      - chmod +x kubectl
+      - mv kubectl /usr/local/bin/
+  pre_build:
+    commands:
+      - aws eks update-kubeconfig --name brain-tasks-eks --region ap-south-1
+  build:
+    commands:
+      - kubectl apply -f deployment.yaml
+      - kubectl apply -f service.yaml
+      - kubectl rollout status deployment/brain-tasks-app --timeout=120s
