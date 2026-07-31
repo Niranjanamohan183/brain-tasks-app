@@ -8,8 +8,8 @@ phases:
   pre_build:
     commands:
       - aws eks update-kubeconfig --name brain-tasks-eks --region ap-south-1
-  build:
+build:
     commands:
-      - kubectl apply -f deployment.yaml
-      - kubectl apply -f service.yaml
+      - kubectl apply -f deployment.yaml --validate=false
+      - kubectl apply -f service.yaml --validate=false
       - kubectl rollout status deployment/brain-tasks-app --timeout=120s
